@@ -20,6 +20,9 @@ def main():
     res = requests.get(f"https://t.me/s/{channel}")
     text = res.text
     configs = re.findall(r">.*(vless://.+<|trojan://.+<|vmess://.+<)", text)
+    if len(configs) == 0:
+        print("No configuration finds in channel")
+        return
     latest_channel_config = configs[-1][:-1]
 
     if not latest_channel_config:
