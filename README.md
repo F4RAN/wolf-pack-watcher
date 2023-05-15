@@ -1,3 +1,6 @@
+🔴 We will complete this readme file as soon as possible
+
+
 # WOLF-PACK-WATCHER
 
 ![image](https://github.com/F4RAN/wolf-pack-watcher/assets/25338592/458db1bf-5f26-44e9-85c6-89f983e70855)
@@ -18,13 +21,17 @@ we use the [alireza0/x-ui](https://github.com/alireza0/x-ui/blob/main/install.sh
 bash <(curl -Ls (https://github.com/F4RAN/wolf-pack-watcher/blob/main/install-alone.sh))
 ```
 
-### if you don't install you should install complete version:
+### if you don't install you should install complete version:( soon )
 
 ```bash
 bash <(curl -Ls (https://github.com/F4RAN/wolf-pack-watcher/blob/main/install-alll.sh))
 ```
 
-##
+## Supported protocols:
+✅ VLESS ( REALITY )
+🕙 TROJAN ( SOON )
+
+🔸 Contribute to the project to cover other protocols
 
 ## Whats WOLF-PACK-WATCHER ?
 
@@ -32,7 +39,7 @@ this script works periodically and watching infinitely a telegram channel,
 
 when new configs are sent into the watching channel script get the config, parse it, and create the same configuration in your server,
 
-when config is created in your server script send the config link in your telegram bot ( if you activate it in the setup level )
+when config is created in your server script send the config link in your telegram bot ( if you activate it in the setup level ) ( soon )
 
 
 ### GOALS
