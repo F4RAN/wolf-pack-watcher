@@ -53,16 +53,4 @@ when config is created in your server script send the config link in your telegr
 
 
 
-
-
-bash <(curl -Ls (https://github.com/F4RAN/wolf-pack-watcher/blob/main/install-alone.sh))
-if you don't install you should install complete:
-bash <(curl -Ls (https://github.com/F4RAN/wolf-pack-watcher/blob/main/install-alll.sh))
-Whats WOLF-PACK-WATCHER?
-this script works periodically and watching infinitely a telegram channel,
-
-when new configs are sent into the watching channel script get the config, parse it, and create the same configuration in your server,
-
-when config is created in your server script send the config link in your telegram bot ( if you activate it in the setup level )
-
-GOALS
+Good Luck,
