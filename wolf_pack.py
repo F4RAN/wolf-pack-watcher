@@ -12,7 +12,6 @@ from helpers.xui import get_xui_credentials
 def main():
     localhost = "127.0.0.1"
     username, password, panel_port = get_xui_credentials()
-
     cookie = get_credentials(ip=localhost, username=username, password=password, port=panel_port)
     if not cookie:
         print("Login Failed")
