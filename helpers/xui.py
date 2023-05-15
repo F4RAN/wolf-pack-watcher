@@ -12,6 +12,6 @@ def get_xui_credentials():
     log = output.split("[INF]")[1]
     username = log.split("username: ")[1].split("\n")[0]
     password = log.split("userpasswd: ")[1].split("\n")[0]
-    port = log.split("port: ")[1].split("\n")[0]
+    port = log.split("port: ")[1].split("\n")[0].split(" ")[0]
 
     return username, password, port
