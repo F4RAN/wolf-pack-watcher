@@ -28,17 +28,15 @@ bash <(curl -Ls (https://github.com/F4RAN/wolf-pack-watcher/blob/main/install-al
 ```
 
 ## Supported protocols:
-✅ VLESS ( REALITY )
-🕙 TROJAN ( SOON )
+- ✅ VLESS ( REALITY )
+- 🕙 TROJAN ( SOON )
 
 🔸 Contribute to the project to cover other protocols
 
 ## Whats WOLF-PACK-WATCHER ?
 
 this script works periodically and watching infinitely a telegram channel,
-
 when new configs are sent into the watching channel script get the config, parse it, and create the same configuration in your server,
-
 when config is created in your server script send the config link in your telegram bot ( if you activate it in the setup level ) ( soon )
 
 
