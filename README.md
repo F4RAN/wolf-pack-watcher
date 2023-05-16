@@ -21,7 +21,7 @@ we use the [alireza0/x-ui](https://github.com/alireza0/x-ui/blob/main/install.sh
 bash <(curl -Ls https://raw.githubusercontent.com/F4RAN/wolf-pack-watcher/master/install-alone.sh)
 ```
 
-### if you don't have installed you should install complete version:( soon )
+### if you don't have installed you should install complete version:
 #### Bypass the hell just with ONE COMMAND:
 ```bash
 bash <(curl -Ls https://raw.githubusercontent.com/F4RAN/wolf-pack-watcher/master/install-full.sh)
