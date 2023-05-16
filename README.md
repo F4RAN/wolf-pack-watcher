@@ -18,13 +18,13 @@ we use the [alireza0/x-ui](https://github.com/alireza0/x-ui/blob/main/install.sh
 ### if you have installed [alireza0/x-ui](https://github.com/alireza0/x-ui/blob/main/install.sh) before you should install stand-alone version:
 
 ```bash
-bash <(curl -Ls (https://github.com/F4RAN/wolf-pack-watcher/blob/main/install-alone.sh))
+bash <(curl -Ls https://raw.githubusercontent.com/F4RAN/wolf-pack-watcher/master/install-alone.sh)
 ```
 
 ### if you don't have installed you should install complete version:( soon )
 #### Bypass the hell just with ONE COMMAND:
 ```bash
-bash <(curl -Ls (https://github.com/F4RAN/wolf-pack-watcher/blob/main/install-full.sh))
+bash <(curl -Ls https://raw.githubusercontent.com/F4RAN/wolf-pack-watcher/master/install-full.sh)
 ```
 
 ## Supported protocols:
