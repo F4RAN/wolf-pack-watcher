@@ -10,7 +10,7 @@ from helpers.xui import get_xui_credentials
 
 
 def main(mode):
-    localhost = "135.181.33.119"
+    localhost = "127.0.0.1"
     if mode != 'dev':
         username, password, panel_port = get_xui_credentials()
     else:
@@ -47,10 +47,11 @@ def main(mode):
         publicKey, privateKey = get_key_pair(ip=localhost, port=panel_port, cookie=cookie)
         vless_config = parse_vless_config(latest_channel_config, protocol, publicKey, privateKey)
         conflict_inbound = check_conflict_ports(port=vless_config['port'], inbounds=inbound_parameters)
-        conflict_status = handle_conflict_ports(ip=localhost, port=panel_port, inbound=conflict_inbound, inbounds=inbounds, cookie=cookie)
-        if conflict_status == "Failed":
-            print("Updating port conflict problem")
-            return
+        if conflict_inbound is not None:
+            conflict_status = handle_conflict_ports(ip=localhost, port=panel_port, inbound=conflict_inbound, inbounds=inbounds, cookie=cookie)
+            if conflict_status == "Failed":
+                print("Updating port conflict problem")
+                return
         status = add_vless(id=biggest_id + 1,ip=localhost, port=panel_port, config=vless_config, cookie=cookie)
         print(status)
         if status == "FAILED":

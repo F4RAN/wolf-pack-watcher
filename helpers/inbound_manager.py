@@ -64,3 +64,4 @@ def check_conflict_ports(port, inbounds):
         if inbound['port'] == port:
             print(inbound['port'], port)
             return inbound
+    return None
