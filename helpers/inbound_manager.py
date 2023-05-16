@@ -4,6 +4,18 @@ import random
 import requests
 
 
+def get_inbound(id, ip, port, cookie):
+    url = f"http://{ip}:{port}/xui/API/inbounds/get/{id}"
+    headers = {
+        'Cookie': f'session={cookie}'
+    }
+    response = requests.get(url, headers=headers)
+    if response.json() and response.json()['success']:
+        return response.json()['obj']
+    else:
+        return "Failed"
+
+
 def check_inbounds(ip, port, cookie):
     url = f"http://{ip}:{port}/xui/API/inbounds/"
     headers = {
@@ -37,7 +49,8 @@ def handle_conflict_ports(ip, port, inbound, inbounds, cookie):
         'Cookie': f'session={cookie}',
         'Content-Type': 'application/json'
     }
-    response = requests.post(f'http://{ip}:{port}/xui/API/inbounds/update/{str(inbound["id"])}', headers=headers, data=json.dumps(inbound))
+    response = requests.post(f'http://{ip}:{port}/xui/API/inbounds/update/{str(inbound["id"])}', headers=headers,
+                             data=json.dumps(inbound))
 
     if response.json() and response.json()['success']:
         return "OK"
@@ -47,8 +60,7 @@ def handle_conflict_ports(ip, port, inbound, inbounds, cookie):
 
 
 def check_conflict_ports(port, inbounds):
-
     for inbound in inbounds:
         if inbound['port'] == port:
-            print(inbound['port'],port)
+            print(inbound['port'], port)
             return inbound

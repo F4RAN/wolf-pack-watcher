@@ -1,6 +1,7 @@
 from time import sleep
 from wolf_pack import main
-main()
-while True:
+mode = 'dev'
+main(mode)
+while True and mode != 'dev':
     sleep(70)
-    main()
+    main(mode)

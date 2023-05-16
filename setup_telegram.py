@@ -13,6 +13,7 @@ while attempts < 3:
         break
     elif telegram_bot_input == "n":
         telegram_bot = False
+        write_on_telegram_file("")
         break
     else:
         print("Invalid input. Please enter 'y' or 'n'.")

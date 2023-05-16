@@ -9,9 +9,15 @@ from helpers.file import write_on_file, read_from_file, read_channel_from_file
 from helpers.xui import get_xui_credentials
 
 
-def main():
-    localhost = "127.0.0.1"
-    username, password, panel_port = get_xui_credentials()
+def main(mode):
+    localhost = "135.181.33.119"
+    if mode != 'dev':
+        username, password, panel_port = get_xui_credentials()
+    else:
+        username="admin"
+        password="admin"
+        panel_port = 54321
+
     cookie = get_credentials(ip=localhost, username=username, password=password, port=panel_port)
     if not cookie:
         print("Login Failed")

@@ -2,8 +2,12 @@ import binascii
 import json
 import os
 import datetime
+import urllib
+from urllib.parse import urlparse
 
 import requests
+
+from helpers.inbound_manager import get_inbound
 
 vless_config = {"id": 100, "remark": "F4_TELEGRAM", "enable": True, "expiryTime": 0, "clientStats": [
     {"id": 1, "inboundId": 1, "enable": True, "email": "WOLF_PACK", "expiryTime": 0, "total": 0}], "listen": "",
@@ -26,10 +30,14 @@ def add_vless(id,ip, port, config, cookie):
     response = requests.request("POST", url, headers=headers, data=payload)
 
     if response.json() and response.json()['success']:
+        inbound = get_inbound(id,ip, port, cookie)
+        link = gen_vless_link(inbound)
+        print(link)
         return "OK"
     else:
         print(response.text)
         return "FAILED"
+
 
 
 def formatted_json(json_obj):
@@ -90,3 +98,111 @@ def parse_vless_config(latest_config, protocol, publicKey, privateKey):
     streamSettings['realitySettings']['settings']['publicKey'] = privateKey
     vless_config['streamSettings'] = formatted_json(streamSettings)
     return vless_config
+
+# def send_to_telegram(id):
+#
+#
+def gen_vless_link(inbound):
+    settings = json.loads(inbound['settings'])
+    stream = json.loads(vless_config['streamSettings'])
+    uuid = settings['clients'][0]['id']
+    port = inbound['port']
+    type = stream['network']
+    params = {}
+
+    def add_param(key, value):
+        if value:
+            params[key] = value
+
+    add_param("type", stream['network'])
+
+    if type == "tcp":
+        tcp = stream['tcpSettings']
+        try:
+            if tcp and tcp['type'] == 'http':
+                request = tcp['request']
+                add_param("path", ",".join(request['path']))
+                index = next((i for i, header in enumerate(request['headers']) if header['name'].lower() == 'host'), -1)
+                if index >= 0:
+                    host = request['headers'][index]['value']
+                    add_param("host", host)
+                add_param("headerType", 'http')
+        except KeyError as e:
+            print(e)
+            pass
+
+    elif type == "kcp":
+        kcp = stream['kcpSettings']
+        add_param("headerType", kcp['type'])
+        add_param("seed", kcp['seed'])
+
+    elif type == "ws":
+        ws = stream['wsSettings']
+        add_param("path", ws['path'])
+        index = next((i for i, header in enumerate(ws['headers']) if header['name'].lower() == 'host'), -1)
+        if index >= 0:
+            host = ws['headers'][index]['value']
+            add_param("host", host)
+
+    elif type == "http":
+        http = stream['httpSettings']
+        add_param("path", http['path'])
+        add_param("host", http['host'])
+
+    elif type == "quic":
+        quic = stream['quicSettings']
+        add_param("quicSecurity", quic['security'])
+        add_param("key", quic['key'])
+        add_param("headerType", quic['type'])
+
+    elif type == "grpc":
+        grpc = stream['tcpSettings']
+        add_param("serviceName", grpc['serviceName'])
+        if grpc['multiMode']:
+            add_param("mode", "multi")
+
+    if stream['security'] == 'tls':
+        add_param("security", "tls")
+        add_param("fp", stream['tls']['settings']['fingerprint'])
+        add_param("alpn", stream['tls']['alpn'])
+        if stream['tls']['settings']['allowInsecure']:
+            add_param("allowInsecure", "1")
+        if stream['tls']['server']:
+            address = stream['tls']['server']
+        if stream['tls']['settings']['serverName'] != '':
+            add_param("sni", stream['tls']['settings']['serverName'])
+        if type == "tcp" and settings['clients'][0]['flow']:
+            add_param("flow", settings['clients'][0]['flow'])
+
+    if stream['security'] == 'reality':
+        add_param("security", "reality")
+        add_param("pbk", stream['realitySettings']['settings']['publicKey'])
+        add_param("fp", stream['realitySettings']['settings']['fingerprint'])
+        if stream['realitySettings']['serverNames']:
+            add_param("sni", stream['realitySettings']['serverNames'][0])
+        if stream['realitySettings']['shortIds']:
+            add_param("sid", stream['realitySettings']['shortIds'][0])
+        if stream['realitySettings']['settings']['serverName']:
+            address = stream['realitySettings']['settings']['serverName']
+        if stream['realitySettings']['settings']['spiderX']:
+            add_param("spx", stream['realitySettings']['settings']['spiderX'])
+        if stream['network'] == 'tcp' and settings['clients'][0]['flow']:
+            add_param("flow", settings['clients'][0][''])
+
+    link = f"vless://{uuid}@{get_external_ip()}:{port}"
+    url = urlparse(link)
+    for key, value in params.items():
+        url = url._replace(query=f"{url.query}&{key}={value}")
+        url = url._replace(fragment=urllib.parse.quote(inbound['remark']))
+    return url.geturl()
+
+def get_external_ip():
+    url = 'https://api.ipify.org'  # Service that returns the public IP address
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        ip_address = response.text.strip()
+        return ip_address
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {str(e)}")
+        return None
