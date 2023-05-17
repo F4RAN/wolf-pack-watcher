@@ -62,6 +62,6 @@ def handle_conflict_ports(ip, port, inbound, inbounds, cookie):
 def check_conflict_ports(port, inbounds):
     for inbound in inbounds:
         if inbound['port'] == port:
-            print(inbound['port'], port)
+            print('conflict finded in this port:'+ inbound['port'])
             return inbound
     return None

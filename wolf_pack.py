@@ -14,9 +14,11 @@ def main(mode):
     if mode != 'dev':
         username, password, panel_port = get_xui_credentials()
     else:
-        username="admin"
-        password="admin"
-        panel_port = 54321
+        import developer_auth
+        localhost = developer_auth.ip
+        username = developer_auth.username
+        password = developer_auth.password
+        panel_port = developer_auth.port
 
     cookie = get_credentials(ip=localhost, username=username, password=password, port=panel_port)
     if not cookie:
@@ -48,11 +50,12 @@ def main(mode):
         vless_config = parse_vless_config(latest_channel_config, protocol, publicKey, privateKey)
         conflict_inbound = check_conflict_ports(port=vless_config['port'], inbounds=inbound_parameters)
         if conflict_inbound is not None:
-            conflict_status = handle_conflict_ports(ip=localhost, port=panel_port, inbound=conflict_inbound, inbounds=inbounds, cookie=cookie)
+            conflict_status = handle_conflict_ports(ip=localhost, port=panel_port, inbound=conflict_inbound,
+                                                    inbounds=inbounds, cookie=cookie)
             if conflict_status == "Failed":
                 print("Updating port conflict problem")
                 return
-        status = add_vless(id=biggest_id + 1,ip=localhost, port=panel_port, config=vless_config, cookie=cookie)
+        status = add_vless(id=biggest_id + 1, ip=localhost, port=panel_port, config=vless_config, cookie=cookie)
         print(status)
         if status == "FAILED":
             print("Add config problem")

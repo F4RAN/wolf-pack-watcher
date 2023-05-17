@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 import requests
 
 from helpers.inbound_manager import get_inbound
+from helpers.telegram import send_to_telegram
 
 vless_config = {"id": 100, "remark": "F4_TELEGRAM", "enable": True, "expiryTime": 0, "clientStats": [
     {"id": 1, "inboundId": 1, "enable": True, "email": "WOLF_PACK", "expiryTime": 0, "total": 0}], "listen": "",
@@ -32,7 +33,7 @@ def add_vless(id,ip, port, config, cookie):
     if response.json() and response.json()['success']:
         inbound = get_inbound(id,ip, port, cookie)
         link = gen_vless_link(inbound)
-        print(link)
+        send_to_telegram(link)
         return "OK"
     else:
         print(response.text)
@@ -199,7 +200,7 @@ def gen_vless_link(inbound):
 def get_external_ip():
     url = 'https://api.ipify.org'  # Service that returns the public IP address
     try:
-        response = requests.get(url)
+        response = requests.get(url, verify=False)
         response.raise_for_status()
         ip_address = response.text.strip()
         return ip_address

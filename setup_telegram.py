@@ -30,6 +30,8 @@ telegram_bot_token=None
 client_id=None
 while attempts < 5 and telegram_bot:
     telegram_bot_token = input("Please enter your telegram bot token: ")
+    telegram_bot_token = telegram_bot_token.replace(" ", "").replace("\n", "")
+
 
     if telegram_bot_token:
         res = requests.get(f"https://api.telegram.org/bot{telegram_bot_token}/getUpdates")
@@ -48,7 +50,7 @@ while attempts < 5 and telegram_bot:
             string += "\n:"
             selected_guy = input(string)
             if int(selected_guy) in range(1, len(separated_guys) + 1):
-                client_id = selected_guy[int(selected_guy) - 1]
+                client_id = separated_guys[int(selected_guy) - 1]['id']
                 content = f"token={telegram_bot_token}\nclient_id={client_id}"
                 status = write_on_telegram_file(content)
                 if status == "OK":
@@ -64,7 +66,7 @@ while attempts < 5 and telegram_bot:
                 continue
 
         else:
-            print("Invalid Telegram Token. You6084136574:AAERSKFVlT4fOyUUWTfNNN7aQ4oi_hinVi4 can get the telegram token here: https://telegram.me/BotFather.")
+            print("Invalid Telegram Token. You can get the telegram token here: https://telegram.me/BotFather.")
             attempts += 1
             continue
 

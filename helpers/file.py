@@ -17,6 +17,12 @@ def write_on_telegram_file(telegram_config):
         file.write(telegram_config)
     return "OK"
 
+def read_from_telegram_file():
+    file_path = "./telegram.txt"
+    with open(file_path, 'r') as file:
+        content = file.read()
+    return content
+
 def write_on_channel_file(channel):
     file_path = "./config.txt"
     with open(file_path, 'w') as file:
