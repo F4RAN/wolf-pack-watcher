@@ -37,7 +37,7 @@ bash <(curl -Ls https://raw.githubusercontent.com/F4RAN/wolf-pack-watcher/master
 
 this script works periodically and watching infinitely a telegram channel,
 when new configs are sent into the watching channel script get the config, parse it, and create the same configuration in your server,
-when config is created in your server, script send the config link in your telegram bot ( if you activate it in the setup level ) ( soon )
+when config is created in your server, script send the config link in your telegram bot (if you activate it in the setup level.)
 
 
 ### GOALS
